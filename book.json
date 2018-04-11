@@ -1,0 +1,20 @@
+{
+  "title": "Furushchev Knowledge Base",
+  "author": "Yuki Furuta",
+  "language": "ja",
+  "plugins": [
+    "codeblock-filename",
+    "katex",
+    "disqus",
+    "summary",
+    "pretty-term",
+    "theme-faq",
+    "-fontsettings",
+    "-sharing"
+  ],
+  "pluginsConfig": {
+    "disqus": {
+      "shortName": "furshchev"
+    }
+  }
+}
