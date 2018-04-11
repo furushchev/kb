@@ -4,9 +4,9 @@ node_js: '9'
 cache:
   directories:
     - node_modules
-before_install:
-  - npm install -g gitbook-cli
 install:
+  - npm install -g gitbook-cli
+script:
   - gitbook install
   - gitbook build
 deploy:
