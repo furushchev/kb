@@ -1,0 +1,368 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>
+    
+        マウントしている領域を無理やりリサイズする · Furushchev Knowledge Base
+    
+</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="Yuki Furuta">
+        
+        
+    <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+        crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css"
+        integrity="sha384-I6JCnqxMbC2DuiHjsoCiLa15NVbKRf8/ooANRLsXD87zD2dVqzlz6Oqjvj470ztk"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-codeblock-filename/block.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-katex/katex.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-disqus/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-pretty-term/terminal.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    </head>
+    <body>
+        
+<nav class="faq-navbar navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-menu" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="..">
+                Furushchev Knowledge Base
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-menu">
+            
+        </div>
+    </div>
+</nav>
+
+<div class="faq-header">
+    <div class="container">
+    <h1>
+        
+            
+                マウントしている領域を無理やりリサイズする
+            
+        
+    </h1>
+
+    
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索すると入力" />
+</div>
+
+
+    
+    </div>
+</div>
+
+<div class="faq-page-container">
+
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+    
+    
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <ol class="breadcrumb">
+                    <li><a href="..">FAQ</a></li>
+                    
+                        
+                            
+                        
+                    
+                        
+                            
+                        
+                            
+                                <li>1-TIPS</li>
+                            
+                        
+                            
+                        
+                            
+                        
+                    
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    
+                    <li class="active">マウントしている領域を無理やりリサイズする</li>
+                </ol>
+                <div class="faq-page">
+                <h1 id="&#x30DE;&#x30A6;&#x30F3;&#x30C8;&#x3057;&#x3066;&#x3044;&#x308B;&#x9818;&#x57DF;&#x3092;&#x7121;&#x7406;&#x3084;&#x308A;&#x30EA;&#x30B5;&#x30A4;&#x30BA;&#x3059;&#x308B;">&#x30DE;&#x30A6;&#x30F3;&#x30C8;&#x3057;&#x3066;&#x3044;&#x308B;&#x9818;&#x57DF;&#x3092;&#x7121;&#x7406;&#x3084;&#x308A;&#x30EA;&#x30B5;&#x30A4;&#x30BA;&#x3059;&#x308B;</h1>
+<ul>
+<li>&#x307E;&#x305A;&#x306F;&#x30D1;&#x30FC;&#x30C6;&#x30A3;&#x30B7;&#x30E7;&#x30F3;&#x3092;&#x30EA;&#x30B5;&#x30A4;&#x30BA;&#x3059;&#x308B;</li>
+</ul>
+<pre><code class="lang-bash">$ sudo fdisk /dev/sda
+
+Command (m <span class="hljs-keyword">for</span> <span class="hljs-built_in">help</span>): p
+
+Disk /dev/sda: 2000.4 GB, 2000398934016 bytes
+255 heads, 63 sectors/track, 243201 cylinders, total 3907029168 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x000eaa72
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *        2048   454551551   227274752   83  Linux
+/dev/sda2       454553598   500117503    22781953    5  Extended
+/dev/sda5       454553600   500117503    22781952   82  Linux swap / Solaris
+
+<span class="hljs-comment"># HDD&#x81EA;&#x4F53;&#x306F;2TB&#x3042;&#x308B;&#x304C;&#x3001;&#x30D1;&#x30FC;&#x30C6;&#x30A3;&#x30B7;&#x30E7;&#x30F3;&#x306F;227GB&#x3057;&#x304B;&#x4F7F;&#x3063;&#x3066;&#x3044;&#x306A;&#x3044;&#x72B6;&#x614B;</span>
+<span class="hljs-comment"># &#x73FE;&#x5728;&#x306E;&#x30D1;&#x30FC;&#x30C6;&#x30A3;&#x30B7;&#x30E7;&#x30F3;&#x30C6;&#x30FC;&#x30D6;&#x30EB;&#x3092;&#x4E00;&#x5EA6;&#x524A;&#x9664;&#x3059;&#x308B;</span>
+
+Command (m <span class="hljs-keyword">for</span> <span class="hljs-built_in">help</span>): d
+Partition number (1-5): 2
+
+Command (m <span class="hljs-keyword">for</span> <span class="hljs-built_in">help</span>): d
+Partition number (1-5): 1
+
+Command (m <span class="hljs-keyword">for</span> <span class="hljs-built_in">help</span>): p
+
+Disk /dev/sda: 2000.4 GB, 2000398934016 bytes
+255 heads, 63 sectors/track, 243201 cylinders, total 3907029168 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x000eaa72
+
+   Device Boot      Start         End      Blocks   Id  System
+
+<span class="hljs-comment"># &#x307E;&#x3063;&#x3055;&#x3089;&#x306A;&#x30D1;&#x30FC;&#x30C6;&#x30A3;&#x30B7;&#x30E7;&#x30F3;&#x30C6;&#x30FC;&#x30D6;&#x30EB;&#x306B;&#x306A;&#x3063;&#x3066;&#x3044;&#x308B;&#x3002;</span>
+<span class="hljs-comment"># &#x3053;&#x3053;&#x306B;&#x65B0;&#x3057;&#x304F;&#x30D1;&#x30FC;&#x30C6;&#x30A3;&#x30B7;&#x30E7;&#x30F3;&#x3092;&#x4F5C;&#x308B;</span>
+<span class="hljs-comment"># First sector&#x304C;&#x524A;&#x9664;&#x524D;&#x306E;&#x30C6;&#x30FC;&#x30D6;&#x30EB;&#x3068;&#x540C;&#x3058;&#x3053;&#x3068;&#x3092;&#x78BA;&#x8A8D;&#x3059;&#x308B;&#x3000;&#xFF08;&#x91CD;&#x8981;&#xFF09;</span>
+Command (m <span class="hljs-keyword">for</span> <span class="hljs-built_in">help</span>): n
+Partition <span class="hljs-built_in">type</span>:
+   p   primary (0 primary, 0 extended, 4 free)
+   e   extended
+Select (default p): p
+Partition number (1-4, default 1): 1
+First sector (2048-3907029167, default 2048): 
+Using default value 2048
+Last sector, +sectors or +size{K,M,G} (2048-3907029167, default 3907029167): 3907029167
+
+Command (m <span class="hljs-keyword">for</span> <span class="hljs-built_in">help</span>): p
+
+Disk /dev/sda: 2000.4 GB, 2000398934016 bytes
+255 heads, 63 sectors/track, 243201 cylinders, total 3907029168 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk identifier: 0x000eaa72
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1            2048  3907029167  1942122583+  83  Linux
+
+<span class="hljs-comment"># &#x30D1;&#x30FC;&#x30C6;&#x30A3;&#x30B7;&#x30E7;&#x30F3;&#x306E;Id&#x3082;&#x540C;&#x3058;&#x3067;&#x3042;&#x308B;&#x3053;&#x3068;&#x3092;&#x78BA;&#x8A8D;</span>
+
+<span class="hljs-comment"># &#x4E00;&#x5FDC;Boot&#x30D5;&#x30E9;&#x30B0;&#x3082;&#x5143;&#x306B;&#x623B;&#x3057;&#x3066;&#x304A;&#x304F;</span>
+Command (m <span class="hljs-keyword">for</span> <span class="hljs-built_in">help</span>): a
+Partition number (1-5): 1
+
+<span class="hljs-comment"># &#x30D1;&#x30FC;&#x30C6;&#x30A3;&#x30B7;&#x30E7;&#x30F3;&#x30C6;&#x30FC;&#x30D6;&#x30EB;&#x306E;&#x5909;&#x66F4;&#x3092;&#x53CD;&#x6620;</span>
+Command (m <span class="hljs-keyword">for</span> <span class="hljs-built_in">help</span>): w
+The partition table has been altered!
+
+Calling ioctl() to re-read partition table.
+
+WARNING: Re-reading the partition table failed with error 16: Device or resource busy.
+The kernel still uses the old table. The new table will be used at
+the next reboot or after you run partprobe(8) or kpartx(8)
+Syncing disks.
+</code></pre>
+<ul>
+<li>&#x30D1;&#x30FC;&#x30C6;&#x30A3;&#x30B7;&#x30E7;&#x30F3;&#x30C7;&#x30FC;&#x30D6;&#x30EB;&#x306E;&#x66F4;&#x65B0;&#x3092;&#x53CD;&#x6620;&#x3055;&#x305B;&#x308B;</li>
+</ul>
+<p><div class="top term"><svg width="20" height="22"><circle cx="8" cy="15" r="7" fill="#f9c536"/></svg><svg width="20" height="22"><circle cx="8" cy="15" r="7" fill="#39e949"/></svg><svg width="20" height="22"><circle cx="8" cy="15" r="7" fill="#f15056"/></svg></div><div class="term text bottom"><span class="normalUser">$</span>
+sudo reboot
+</div></p>
+<ul>
+<li>&#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x30B7;&#x30B9;&#x30C6;&#x30E0;&#x306E;&#x308A;&#x30B5;&#x30A4;&#x30BA;</li>
+</ul>
+<pre><code class="lang-bash"><span class="hljs-comment"># &#x3053;&#x306E;&#x72B6;&#x614B;&#x3067;&#x306F;&#x307E;&#x3060;&#x9818;&#x57DF;&#x304C;&#x62E1;&#x5F35;&#x3055;&#x308C;&#x3066;&#x3044;&#x306A;&#x3044;</span>
+$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+udev            7.8G  8.0K  7.8G   1% /dev
+tmpfs           1.6G  1.6M  1.6G   1% /run
+/dev/sda1       214G  196G  7.3G  97% /
+none            4.0K     0  4.0K   0% /sys/fs/cgroup
+none            5.0M  8.0K  5.0M   1% /run/lock
+none            7.8G   80K  7.8G   1% /run/shm
+none            100M   32K  100M   1% /run/user
+
+<span class="hljs-comment"># &#x30D5;&#x30A1;&#x30A4;&#x30EB;&#x30B7;&#x30B9;&#x30C6;&#x30E0;&#x306E;&#x30B5;&#x30A4;&#x30BA;&#x5909;&#x66F4;</span>
+$ sudo resize2fs /dev/sda1
+[sudo] password <span class="hljs-keyword">for</span> furushchev: 
+resize2fs 1.42.9 (4-Feb-2014)
+Filesystem at /dev/sda1 is mounted on /; on-line resizing required
+old_desc_blocks = 14, new_desc_blocks = 116
+The filesystem on /dev/sda1 is now 485530645 blocks long.
+
+<span class="hljs-comment"># &#x5897;&#x3048;&#x305F;</span>
+$ df -h
+Filesystem      Size  Used Avail Use% Mounted on
+udev            7.8G  8.0K  7.8G   1% /dev
+tmpfs           1.6G  1.6M  1.6G   1% /run
+/dev/sda1       1.8T  196G  1.6T  12% /
+none            4.0K     0  4.0K   0% /sys/fs/cgroup
+none            5.0M  4.0K  5.0M   1% /run/lock
+none            7.8G   88K  7.8G   1% /run/shm
+none            100M   32K  100M   1% /run/user
+</code></pre>
+
+                </div>
+            </div>
+        </div>
+
+        
+            
+        
+    
+
+
+    
+    <div class="faq-page-footer">
+        <a href="https://www.gitbook.com" target="_blank">GitBookで公開 </a> ·
+        <span>Last edit June 5th 2018</span>
+    </div>
+    
+
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results for "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+</div>
+
+        
+<script src="../gitbook/gitbook.js"></script>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.16.1/URI.min.js"></script>
+    
+
+    
+    <script src="../gitbook/gitbook-plugin-disqus/plugin.js"></script>
+    
+
+    
+    <script src="../gitbook/gitbook-plugin-pretty-term/terminal.js"></script>
+    
+
+    
+    <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+    
+
+    
+    <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+    
+
+<script>
+(function() {
+    gitbook.page.hasChanged({"page":{"title":"マウントしている領域を無理やりリサイズする","level":"2.2","depth":1,"next":{"title":"SSHの接続クライアントをアドレスごとに制限する","level":"2.3","depth":1,"path":"1-TIPS/3-SSH-IP.md","ref":"1-TIPS/3-SSH-IP.md","articles":[]},"previous":{"title":"多段SSHの便利な設定","level":"2.1","depth":1,"path":"1-TIPS/1-ProxySSH.md","ref":"1-TIPS/1-ProxySSH.md","articles":[]},"dir":"ltr"},"config":{"plugins":["codeblock-filename","katex","disqus","summary","pretty-term","theme-faq","-fontsettings","-sharing"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"useIdentifier":false,"shortName":"furshchev"},"pretty-term":{},"summary":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"katex":{},"theme-faq":{},"highlight":{},"codeblock-filename":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Yuki Furuta","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Furushchev Knowledge Base","language":"ja","gitbook":"*"},"file":{"path":"1-TIPS/2-ResizeBootPartition.md","mtime":"2018-06-05T01:36:08.146Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-05T01:37:07.527Z"},"basePath":"..","book":{"language":""}})
+})();
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    </body>
+</html>
+

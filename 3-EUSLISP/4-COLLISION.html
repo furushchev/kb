@@ -1,0 +1,275 @@
+
+<!DOCTYPE HTML>
+<html lang="ja" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>
+    
+        衝突回避拘束を入れて逆運動学計算 · Furushchev Knowledge Base
+    
+</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        <meta name="author" content="Yuki Furuta">
+        
+        
+    <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7"
+        crossorigin="anonymous">
+    <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.0/css/font-awesome.min.css"
+        integrity="sha384-I6JCnqxMbC2DuiHjsoCiLa15NVbKRf8/ooANRLsXD87zD2dVqzlz6Oqjvj470ztk"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="../gitbook/style.css">
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-codeblock-filename/block.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-katex/katex.min.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-disqus/plugin.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-pretty-term/terminal.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    </head>
+    <body>
+        
+<nav class="faq-navbar navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-menu" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="..">
+                Furushchev Knowledge Base
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-menu">
+            
+        </div>
+    </div>
+</nav>
+
+<div class="faq-header">
+    <div class="container">
+    <h1>
+        
+            
+                衝突回避拘束を入れて逆運動学計算
+            
+        
+    </h1>
+
+    
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="検索すると入力" />
+</div>
+
+
+    
+    </div>
+</div>
+
+<div class="faq-page-container">
+
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+    
+    
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <ol class="breadcrumb">
+                    <li><a href="..">FAQ</a></li>
+                    
+                        
+                            
+                        
+                    
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                    
+                        
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <li>3-EUSLISP</li>
+                            
+                        
+                            
+                        
+                    
+                    <li class="active">衝突回避拘束を入れて逆運動学計算</li>
+                </ol>
+                <div class="faq-page">
+                <h1 id="&#x885D;&#x7A81;&#x56DE;&#x907F;&#x62D8;&#x675F;&#x3092;&#x5165;&#x308C;&#x3066;&#x9006;&#x904B;&#x52D5;&#x5B66;&#x8A08;&#x7B97;">&#x885D;&#x7A81;&#x56DE;&#x907F;&#x62D8;&#x675F;&#x3092;&#x5165;&#x308C;&#x3066;&#x9006;&#x904B;&#x52D5;&#x5B66;&#x8A08;&#x7B97;</h1>
+<pre><code class="lang-lisp">(<span class="hljs-name">require</span> <span class="hljs-symbol">:pr2</span> <span class="hljs-string">&quot;package://pr2eus/pr2.l&quot;</span>)
+(<span class="hljs-name">pr2</span>)
+(<span class="hljs-name">objects</span> (<span class="hljs-name">list</span> *pr2*)) <span class="hljs-comment">;; init pr2 robot visualizer</span>
+
+(<span class="hljs-name">send</span> *pr2* <span class="hljs-symbol">:reset-pose</span>)
+
+(<span class="hljs-name">send</span> *pr2* <span class="hljs-symbol">:inverse-kinematics</span>
+      (<span class="hljs-name">list</span> (<span class="hljs-name">make-coords</span> <span class="hljs-symbol">:pos</span> (<span class="hljs-name">float-vector</span> <span class="hljs-number">370</span> <span class="hljs-number">-200</span> <span class="hljs-number">770</span>))  <span class="hljs-comment">;; goal position for left arm</span>
+            (<span class="hljs-name">make-coords</span> <span class="hljs-symbol">:pos</span> (<span class="hljs-name">float-vector</span> <span class="hljs-number">370</span> <span class="hljs-number">200</span> <span class="hljs-number">790</span>)))  <span class="hljs-comment">;; for right arm</span>
+      <span class="hljs-symbol">:move-target</span> (<span class="hljs-name">list</span> (<span class="hljs-name">send</span> *pr2* <span class="hljs-symbol">:larm</span> <span class="hljs-symbol">:end-coords</span>) (<span class="hljs-name">send</span> *pr2* <span class="hljs-symbol">:rarm</span> <span class="hljs-symbol">:end-coords</span>))  <span class="hljs-comment">;; use both arms</span>
+      <span class="hljs-symbol">:link-list</span> (<span class="hljs-name">list</span> <span class="hljs-comment">;; register links to move</span>
+                  (<span class="hljs-name">send</span> *pr2* <span class="hljs-symbol">:link-list</span> (<span class="hljs-name">send</span> (<span class="hljs-name">send</span> *pr2* <span class="hljs-symbol">:larm</span> <span class="hljs-symbol">:end-coords</span>) <span class="hljs-symbol">:parent</span>))
+                  (<span class="hljs-name">send</span> *pr2* <span class="hljs-symbol">:link-list</span> (<span class="hljs-name">send</span> (<span class="hljs-name">send</span> *pr2* <span class="hljs-symbol">:rarm</span> <span class="hljs-symbol">:end-coords</span>) <span class="hljs-symbol">:parent</span>)))
+      <span class="hljs-symbol">:rotation-axis</span> (<span class="hljs-name">list</span> <span class="hljs-literal">nil</span> <span class="hljs-literal">nil</span>)
+      <span class="hljs-symbol">:avoid-collision-distance</span> <span class="hljs-number">100</span>
+      <span class="hljs-symbol">:avoid-collision-null-gain</span> <span class="hljs-number">5.0</span> <span class="hljs-comment">;; this parameter affects how solver take efforts to find collision free pose</span>
+      <span class="hljs-symbol">:avoid-collision-joint-gain</span> <span class="hljs-number">0.8</span>
+      <span class="hljs-symbol">:collision-avoidance-link-pair</span> <span class="hljs-comment">;; register link pairs to take account for each links.</span>
+      (<span class="hljs-name">reduce</span> #&apos;append
+              (<span class="hljs-name">mapcar</span> #&apos;(lambda (rarm-link)
+                          (mapcar #&apos;(lambda (larm-link) (list larm-link rarm-link))
+                                  (send *pr2* :larm :links)))
+                      (<span class="hljs-name">send</span> *pr2* <span class="hljs-symbol">:rarm</span> <span class="hljs-symbol">:links</span>)))
+      <span class="hljs-symbol">:debug-view</span> <span class="hljs-symbol">:no-messge</span> <span class="hljs-comment">;; show results for each iteration to viewer</span>
+      <span class="hljs-symbol">:stop</span> <span class="hljs-number">100</span>  <span class="hljs-comment">;; iteration count to solve inverse-kinematics</span>
+      )
+</code></pre>
+
+                </div>
+            </div>
+        </div>
+
+        
+            
+        
+    
+
+
+    
+    <div class="faq-page-footer">
+        <a href="https://www.gitbook.com" target="_blank">GitBookで公開 </a> ·
+        <span>Last edit June 5th 2018</span>
+    </div>
+    
+
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results for "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+</div>
+
+        
+<script src="../gitbook/gitbook.js"></script>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/URI.js/1.16.1/URI.min.js"></script>
+    
+
+    
+    <script src="../gitbook/gitbook-plugin-disqus/plugin.js"></script>
+    
+
+    
+    <script src="../gitbook/gitbook-plugin-pretty-term/terminal.js"></script>
+    
+
+    
+    <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+    
+
+    
+    <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+    
+
+    
+    <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+    
+
+    
+    <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+    
+
+<script>
+(function() {
+    gitbook.page.hasChanged({"page":{"title":"衝突回避拘束を入れて逆運動学計算","level":"4.4","depth":1,"next":{"title":"Viewerの画像を取得する","level":"4.5","depth":1,"path":"3-EUSLISP/5-SAVE-IMAGE.md","ref":"3-EUSLISP/5-SAVE-IMAGE.md","articles":[]},"previous":{"title":"ベンチマーク","level":"4.3","depth":1,"path":"3-EUSLISP/3-COMPILE.md","ref":"3-EUSLISP/3-COMPILE.md","articles":[]},"dir":"ltr"},"config":{"plugins":["codeblock-filename","katex","disqus","summary","pretty-term","theme-faq","-fontsettings","-sharing"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"disqus":{"useIdentifier":false,"shortName":"furshchev"},"pretty-term":{},"summary":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"katex":{},"theme-faq":{},"highlight":{},"codeblock-filename":{},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","author":"Yuki Furuta","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"title":"Furushchev Knowledge Base","language":"ja","gitbook":"*"},"file":{"path":"3-EUSLISP/4-COLLISION.md","mtime":"2018-06-05T01:36:08.146Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-06-05T01:37:07.527Z"},"basePath":"..","book":{"language":""}})
+})();
+</script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+    </body>
+</html>
+
